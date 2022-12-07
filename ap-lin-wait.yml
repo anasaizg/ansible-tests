@@ -1,0 +1,23 @@
+---
+- hosts: all
+  remote_user: ana
+  become: false
+  gather_facts: true
+  tasks:
+    - name: gets launching start time
+      set_fact:
+        start_time: "{{ ansible_date_time.epoch }}"
+
+    - debug:
+        msg: "Start time: {{ start_time }}"
+
+    - name: waits for defined seconds
+      wait_for:
+        timeout: "{{ wait_seconds }}"
+
+    - name: gets elapsed time
+      set_fact:
+        elapsed_time: "{{ (lookup('pipe','date +%s') |int) - (start_time |int ) }}"
+
+    - debug:
+       msg: "Elapsed time: {{ elapsed_time }} seconds"

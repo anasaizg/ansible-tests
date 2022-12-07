@@ -1,0 +1,8 @@
+---
+- hosts: all
+  remote_user: ana
+  become: false
+  gather_facts: true
+  tasks:
+    - name: pings remote server
+      ping:
